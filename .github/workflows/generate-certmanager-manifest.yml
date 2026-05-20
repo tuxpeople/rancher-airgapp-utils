@@ -47,5 +47,5 @@ jobs:
         working-directory: ${{ runner.temp }}/hauler
         run: |
           oras push \
-            "ghcr.io/${{ github.repository }}/cert-manager-manifest.yaml:${{ steps.version.outputs.value }}" \
+            "ghcr.io/${{ github.repository }}/hauler/cert-manager-manifest.yaml:${{ steps.version.outputs.value }}" \
             "certmanager-manifest.yaml:application/yaml"
