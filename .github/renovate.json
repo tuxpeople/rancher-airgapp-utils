@@ -3,12 +3,11 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^generate-.*-manifest\\.sh$"],
-      "matchStrings": [
-        "# renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+) registryUrl=(?<registryUrl>[^\\n]+)\\n[A-Z_]*VERSION=(?<currentValue>[^\\n]+)"
-      ]
+      "customType": "regex",
+      "managerFilePatterns": ["/^generate-.*-manifest\\.sh$/"],
+      "matchStrings": ["# renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+) registryUrl=(?<registryUrl>[^\\n]+)\\n[A-Z_]*VERSION=(?<currentValue>[^\\n]+)"]
     }
   ]
 }
