@@ -1,0 +1,52 @@
+name: Backfill manifest
+
+on:
+  workflow_dispatch:
+    inputs:
+      product:
+        description: 'Product name (e.g. cert-manager, longhorn)'
+        required: true
+      version:
+        description: 'Version to generate (e.g. 1.18.0 or v1.18.0)'
+        required: true
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Install ORAS
+        uses: oras-project/setup-oras@v1
+
+      - name: Generate manifest with overridden version
+        env:
+          WORKDIR: ${{ runner.temp }}/hauler
+        run: |
+          SCRIPT="generate-${{ github.event.inputs.product }}-manifest.sh"
+          VAR_NAME=$(grep -E '^[A-Z_]*VERSION=' "$SCRIPT" | head -1 | cut -d'=' -f1)
+          TMPSCRIPT=$(mktemp).sh
+          sed "s/^${VAR_NAME}=.*/${VAR_NAME}=${{ github.event.inputs.version }}/" "$SCRIPT" > "$TMPSCRIPT"
+          bash "$TMPSCRIPT"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push manifest to GHCR
+        working-directory: ${{ runner.temp }}/hauler
+        run: |
+          VERSION=$(echo "${{ github.event.inputs.version }}" | sed 's/^v//')
+          oras push \
+            "ghcr.io/${{ github.repository }}/hauler/${{ github.event.inputs.product }}-manifest.yaml:${VERSION}" \
+            "${{ github.event.inputs.product }}-manifest.yaml:application/yaml"
