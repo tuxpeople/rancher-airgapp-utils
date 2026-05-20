@@ -53,7 +53,7 @@ jobs:
         run: |
           SCRIPT="${{ matrix.script }}"
           PRODUCT=$(echo "$SCRIPT" | sed 's/generate-//' | sed 's/-manifest\.sh//')
-          VERSION=$(grep -E '^[A-Z_]*VERSION=' "$SCRIPT" | head -1 | cut -d'=' -f2)
+          VERSION=$(grep -E '^[A-Z_]*VERSION=' "$SCRIPT" | head -1 | cut -d'=' -f2 | sed 's/^v//')
           echo "product=${PRODUCT}" >> $GITHUB_OUTPUT
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
