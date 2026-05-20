@@ -48,4 +48,4 @@ jobs:
         run: |
           oras push \
             "ghcr.io/${{ github.repository }}/hauler/cert-manager-manifest.yaml:${{ steps.version.outputs.value }}" \
-            "certmanager-manifest.yaml:application/yaml"
+            "cert-manager-manifest.yaml:application/yaml"

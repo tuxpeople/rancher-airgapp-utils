@@ -15,7 +15,7 @@ helm repo add jetstack https://charts.jetstack.io && helm repo update
 CERTMANAGER_IMAGES=$(helm template jetstack/cert-manager --version=${CERTMANAGER_VERSION} --include-crds | grep 'image:' | sed 's/"//g' | awk '{ print $2 }' | sed -e "s/^/    - name: /")
 
 # Create Hauler Manifest
-cat > ${WORKDIR}/certmanager-manifest.yaml << EOF
+cat > ${WORKDIR}/cert-manager-manifest.yaml << EOF
 apiVersion: content.hauler.cattle.io/v1
 kind: Charts
 metadata:
