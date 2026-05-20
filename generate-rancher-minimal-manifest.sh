@@ -22,7 +22,7 @@ RANCHER_IMAGES=$(curl -sSfL "https://prime.ribs.rancher.io/rancher/v${RANCHER_VE
         | sed -e "s/^/    - name: /")
 
 # Create Hauler Manifest
-cat > ${WORKDIR}/rancher-manifest.yaml << EOF
+cat > ${WORKDIR}/rancher-minimal-manifest.yaml << EOF
 apiVersion: content.hauler.cattle.io/v1
 kind: Charts
 metadata:
