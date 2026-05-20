@@ -44,7 +44,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push manifest to GHCR
+        working-directory: ${{ runner.temp }}/hauler
         run: |
           oras push \
             "ghcr.io/${{ github.repository }}/cert-manager-manifest.yaml:${{ steps.version.outputs.value }}" \
-            "${{ runner.temp }}/hauler/certmanager-manifest.yaml:application/yaml"
+            "certmanager-manifest.yaml:application/yaml"
