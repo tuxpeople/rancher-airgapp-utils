@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# renovate: datasource=helm depName=cert-manager registryUrl=https://charts.jetstack.io
 CERTMANAGER_VERSION=v1.19.0
 #WORKDIR="/opt/hauler/rancher"
 WORKDIR="${WORKDIR:-${HOME}/Downloads/hauler/automate}"

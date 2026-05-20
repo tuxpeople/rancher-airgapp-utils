@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "regexManagers": [
+    {
+      "fileMatch": ["^generate-.*-manifest\\.sh$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+) registryUrl=(?<registryUrl>[^\\n]+)\\n[A-Z_]*VERSION=(?<currentValue>[^\\n]+)"
+      ]
+    }
+  ]
+}

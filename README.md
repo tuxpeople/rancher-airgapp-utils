@@ -64,4 +64,11 @@ WORKDIR=/tmp/hauler bash generate-cert-manager-manifest.sh
 
 ## Version updates
 
-Versions are managed by [Renovate](https://docs.renovatebot.com/) via the `regex` manager (coming soon).
+Versions are managed automatically by [Renovate](https://docs.renovatebot.com/). Each script has an annotation comment directly above the version variable:
+
+```bash
+# renovate: datasource=helm depName=<product> registryUrl=<chart-repo-url>
+PRODUCT_VERSION=1.2.3
+```
+
+When adding a new script, add this annotation with the correct datasource and Renovate will pick up version updates automatically.
