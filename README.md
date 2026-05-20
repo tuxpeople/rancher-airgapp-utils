@@ -16,10 +16,12 @@ ghcr.io/tuxpeople/rancher-airgapp-utils/hauler/<product>-manifest.yaml:<version>
 
 ## Available products
 
-| Product | Script | Version variable |
-|---|---|---|
-| cert-manager | `generate-cert-manager-manifest.sh` | `CERTMANAGER_VERSION` |
-| Longhorn | `generate-longhorn-manifest.sh` | `LONGHORN_VERSION` |
+| Product | Script | Version variable | Notes |
+|---|---|---|---|
+| cert-manager | `generate-cert-manager-manifest.sh` | `CERTMANAGER_VERSION` | |
+| Longhorn | `generate-longhorn-manifest.sh` | `LONGHORN_VERSION` | |
+| Rancher | `generate-rancher-manifest.sh` | `RANCHER_VERSION` | Full image list |
+| Rancher (minimal) | `generate-rancher-minimal-manifest.sh` | `RANCHER_VERSION` | Filters out platform-specific images (GKE, AKS, EKS, Harvester, Istio, NeuVector, etc.) |
 
 ## Usage
 
@@ -28,11 +30,19 @@ ghcr.io/tuxpeople/rancher-airgapp-utils/hauler/<product>-manifest.yaml:<version>
 ```bash
 hauler store sync \
   --product-registry ghcr.io/tuxpeople/rancher-airgapp-utils \
-  --products cert-manager=1.19.0
+  --products cert-manager=1.19.3
 
 hauler store sync \
   --product-registry ghcr.io/tuxpeople/rancher-airgapp-utils \
   --products longhorn=1.10.2
+
+hauler store sync \
+  --product-registry ghcr.io/tuxpeople/rancher-airgapp-utils \
+  --products rancher=2.13.2
+
+hauler store sync \
+  --product-registry ghcr.io/tuxpeople/rancher-airgapp-utils \
+  --products rancher-minimal=2.13.2
 ```
 
 Multiple products at once:
@@ -40,7 +50,17 @@ Multiple products at once:
 ```bash
 hauler store sync \
   --product-registry ghcr.io/tuxpeople/rancher-airgapp-utils \
-  --products cert-manager=1.19.0,longhorn=1.10.2
+  --products cert-manager=1.19.3,longhorn=1.10.2,rancher-minimal=2.13.2
+```
+
+### Backfill older versions
+
+Older versions can be published on demand via the **Backfill manifest** workflow without touching the scripts:
+
+```bash
+gh workflow run backfill-manifest.yml \
+  -f product=cert-manager \
+  -f version=1.18.0
 ```
 
 ### Run a script locally
