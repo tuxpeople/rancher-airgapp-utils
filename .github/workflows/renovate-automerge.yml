@@ -1,0 +1,38 @@
+name: Renovate automerge
+
+on:
+  pull_request:
+    paths:
+      - 'generate-*-manifest.sh'
+
+jobs:
+  validate:
+    if: github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Run changed scripts
+        env:
+          WORKDIR: ${{ runner.temp }}/hauler
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          for script in $(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'generate-*-manifest.sh'); do
+            echo "Validating ${script}..."
+            bash "${script}"
+          done
+
+  automerge:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Merge PR
+        run: gh pr merge ${{ github.event.pull_request.number }} --squash --auto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
