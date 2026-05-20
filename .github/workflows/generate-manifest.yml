@@ -14,7 +14,7 @@ jobs:
     outputs:
       scripts: ${{ steps.find.outputs.scripts }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
 
@@ -40,7 +40,7 @@ jobs:
         script: ${{ fromJson(needs.detect.outputs.scripts) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Helm
         uses: azure/setup-helm@v4
