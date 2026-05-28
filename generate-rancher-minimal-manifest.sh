@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # renovate: datasource=helm depName=rancher registryUrl=https://releases.rancher.com/server-charts/latest
-RANCHER_VERSION=2.14.1
+RANCHER_VERSION=2.14.2
 #WORKDIR="/opt/hauler/rancher"
 WORKDIR="${WORKDIR:-${HOME}/Downloads/hauler/automate}"
 IMAGEFILTER='neuvector|gke|aks|eks|sriov|harvester|tekton|istio|multus|hyper|jenkins|windows'
