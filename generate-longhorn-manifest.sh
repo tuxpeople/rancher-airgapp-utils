@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # renovate: datasource=helm depName=longhorn registryUrl=https://charts.longhorn.io
-LONGHORN_VERSION=1.11.2
+LONGHORN_VERSION=1.12.0
 #WORKDIR="/opt/hauler/rancher"
 WORKDIR="${WORKDIR:-${HOME}/Downloads/hauler/automate}"
 
